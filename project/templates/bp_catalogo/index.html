@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+    {% block body %}
+
+
+    <ul>
+      {% for entry in entries%}
+        <li>
+          <a href="{{ url_for('bp_catalogo.index_rubro', id_rubro=entry.id) }}">{{ entry.nombre }}</a>
+           {%if entry.productos %}
+           
+           <table>
+            {% for producto in entry.productores %}
+              <tr> 
+                <td>{{ productores.nombre }}</td>
+                {% for producto in productores.productos %}
+                  <td>{{ producto.nombre|safe }}</td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+            </table>
+            {%endif%}
+            
+      {% else %}
+        <li>No entries yet. Add some!</li>
+      {% endfor %}
+    </ul>
+{% endblock %}

@@ -10,3 +10,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
+    UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
+    ALLOWED_EXTENSIONS = os.environ.get('ALLOWED_EXTENSIONS')
+    UPLOADS_DEFAULT_DEST =  os.path.join(basedir, 'project/static/uploads')
+    UPLOADED_IMAGES_DEST =  os.path.join(basedir, 'project/static/uploads')

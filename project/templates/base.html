@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Directorio</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+ 
+
+    <h1>Directorio Pyme</h1>
+     {% include "_navbar.html" %}
+     <hr>
+    <ul>
+    {% for message in get_flashed_messages() %}
+      <li>{{ message }}</li>
+    {% endfor %}
+     </ul>
+
+    {% block body %}{% endblock %}
+
+
+</body>
+</html>

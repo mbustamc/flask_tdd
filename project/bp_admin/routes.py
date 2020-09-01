@@ -10,7 +10,7 @@ from flask_admin.contrib.sqla import ModelView
 from project import admin
 from project import db
 
-from project.models import *
+from project.models.bp_catalogo import *
 
 from project.bp_admin import bp
 

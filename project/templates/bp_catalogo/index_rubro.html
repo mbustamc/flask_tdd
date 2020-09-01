@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+    {% block body %}
+    <h2>{{ nombre_rubro.nombre }}</h2>
+    
+    <ul>
+      {% for entry in entries%}
+        <li>
+          <h3>{{ entry.nombre_fantasia}}</h3>
+          <p>{{ entry.website}}</p>
+          {% for imagen in entry.imagenes %}
+           <img src="{{imagen.path}}" alt="imagen.name" width="120">
+           {%endfor%}
+           {%if entry.productos %}
+           
+           <ul>
+            {% for producto in entry.productos %}
+              <li>{{ producto.nombre }}</li>
+            {% endfor %}
+            </ul>
+            {%endif%}
+            
+      {% else %}
+        <li>No entries yet. Add some!</li>
+      {% endfor %}
+    </ul>
+{% endblock %}
