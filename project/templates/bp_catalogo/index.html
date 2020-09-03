@@ -1,27 +1,76 @@
+  
+
 {% extends "base.html" %}
+{% from '_formhelpers.html' import render_field %}
+
     {% block body %}
 
 
-    <ul>
-      {% for entry in entries%}
-        <li>
-          <a href="{{ url_for('bp_catalogo.index_rubro', id_rubro=entry.id) }}">{{ entry.nombre }}</a>
-           {%if entry.productos %}
-           
-           <table>
-            {% for producto in entry.productores %}
-              <tr> 
-                <td>{{ productores.nombre }}</td>
-                {% for producto in productores.productos %}
-                  <td>{{ producto.nombre|safe }}</td>
-                {% endfor %}
-              </tr>
-            {% endfor %}
-            </table>
-            {%endif%}
+  <form class="form-inline" action="{{ url_for('bp_catalogo.index') }}" method="POST" role="form">
+
+    {{ form.hidden_tag()  }}
+    {% for field in form if field.type not in ["HiddenField", "CSRFTokenField"] %}
+    <div class="form-group">
+      {{ render_field(field) }}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Ver</button>
+  </form>
+<br>
             
-      {% else %}
-        <li>No entries yet. Add some!</li>
-      {% endfor %}
-    </ul>
+
+
+{%if seleccionado %}
+<table class="table table-hover">
+
+  <tbody>
+    {% for entry in seleccionado%}
+    <tr class="d-flex">
+
+      <td class="col-1">{% for imagen in entry.imagenes %}
+        <img src="{{imagen.path}}" alt="imagen.name" width="80">
+        {%endfor%}    
+      </td>
+      <td class="col-8">                    <span>
+        <a href="https://www.google.cl">{{ entry.nombre_fantasia}}</a>
+      </span>
+      <br>
+      <span>We specialize in offering an unparalleled street art and graffiti experience with our art gallery shows, team building activities, graphic design and murals, and retail boutique.... En el nom
+        {%if entry.productos %}          
+        {% for producto in entry.productos %}
+        {{ producto.nombre }}
+        {% endfor %}
+        {%endif%}&nbsp;
+      </span>
+      <span></span></td>
+      <td class="col-3">
+        <br>
+        <span>Direccion linea 1</span>
+        <br>
+        <span>Comuna&nbsp;</span>
+        <span>,&nbsp;</span>
+        <span>Region&nbsp;</span>
+        <span>94103</span>
+        <br>
+        <span>United States</span>
+        <br>
+        <span>Phone:&nbsp;</span>
+        <span>(+56) 9 9223 1568</span>
+        <br>
+        <span>
+          {%if entry.productos %}
+          <a href="{{ entry.website}}" target="_blank">Website</a>
+          {%endif%}
+        &nbsp;</span>
+        <span><a href="mailto:1AM@email.com">Email</a>&nbsp;</span>
+        <span></span>
+      </td>
+    </tr>
+    {% else %}
+    <p>No entries yet. Add some!</p>
+    {% endfor %}
+  </tbody>
+</table>
+
+{%endif%}
 {% endblock %}

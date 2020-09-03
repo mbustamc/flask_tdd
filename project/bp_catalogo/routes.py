@@ -1,20 +1,21 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, flash
 
 from project import db
 from project.models.bp_catalogo import *
 from project.bp_catalogo import bp
+from .forms import ElegirRubroForm
 
 
-@bp.route('/')
+
+@bp.route('/', methods=['GET', 'POST'])
+@bp.route('/index', methods=['GET', 'POST'])
 def index():
-	"""Searches the database for entries, then displays them."""
-	entries = db.session.query(Rubro).all()
-	#entries = db.session.query(Rubro)
-	return render_template('bp_catalogo/index.html', entries=entries)
+    form = ElegirRubroForm()
+    entries = db.session.query(Rubro).all()
+    form.rubro.choices = [(rubro.id, rubro.nombre) for rubro in Rubro.query.all()]
+    if request.method == "POST":
+    	id_rubro = request.form['rubro']
+    	seleccionado = db.session.query(Productor).join(Productor, Producto.productores).join(Rubro, Producto.rubros).filter(Rubro.id==id_rubro).all()
+    	return render_template('bp_catalogo/index.html', entries=entries, form=form ,seleccionado=seleccionado)
 
-@bp.route('/rubro/<id_rubro>')
-def index_rubro(id_rubro):
-	"""Searches the database for entries, then displays them."""
-	entries = db.session.query(Productor).join(Productor, Producto.productores).join(Rubro, Producto.rubros).filter(Rubro.id==id_rubro).all()
-	nombre_rubro = db.session.query(Rubro.nombre).filter(Rubro.id==id_rubro).first()
-	return render_template('bp_catalogo/index_rubro.html', nombre_rubro= nombre_rubro, entries=entries)
+    return render_template('bp_catalogo/index.html',entries=entries, form= form)
