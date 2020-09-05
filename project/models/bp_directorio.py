@@ -1,5 +1,5 @@
 from project import db
-#from project.models.bp_upload import Image
+from project.models.bp_upload import Imagen
 
 
 rubro_producto = db.Table('rubro_producto',

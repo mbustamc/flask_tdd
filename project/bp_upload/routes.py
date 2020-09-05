@@ -5,7 +5,7 @@ from project.bp_upload import bp
 from project import db
 
 from project.models.bp_upload import Imagen
-from project.models.bp_catalogo import Productor
+from project.models.bp_directorio import Productor
 
 from project import photos
 from .forms import *
@@ -27,7 +27,7 @@ def index():
         db.session.add(image)
         db.session.commit()
         flash('New Image added!')
-        return redirect(url_for('bp_catalogo.index'))
+        return redirect(url_for('bp_directorio.index'))
     else:
         file_url = None
     return render_template('bp_upload/index.html', form=form, file_url=file_url)

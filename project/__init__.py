@@ -7,6 +7,7 @@ from config import Config
 
 from flask_migrate import Migrate
 from flask_admin import Admin
+from flask_login import LoginManager
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 
 
@@ -15,6 +16,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 db = SQLAlchemy()
 migrate = Migrate()
+login = LoginManager()
 admin = Admin(name='Admin', template_mode='bootstrap3')
 photos = UploadSet('photos', IMAGES)
 
@@ -30,18 +32,24 @@ def create_app():
 	db.init_app(application)
 	migrate.init_app(application, db)
 	admin.init_app(application)
+
+	login.init_app(application)
+	login.login_message = 'You must be logged in to access this page.'
+	login.login_view = 'bp_auth.login'
 	
 	configure_uploads(application, photos)
 
-	from project.models.bp_catalogo import Productor, Rubro, Producto
-	from project.models.bp_upload import Imagen
+	from project import models
 
 	from project.bp_admin import bp as bp_admin
 	application.register_blueprint(bp_admin, url_prefix='/admin')
 
+	from project.bp_auth import bp as bp_auth
+	application.register_blueprint(bp_auth, url_prefix='/auth')
 
-	from project.bp_catalogo import bp as bp_catalogo
-	application.register_blueprint(bp_catalogo, url_prefix='/catalogo')
+
+	from project.bp_directorio import bp as bp_directorio
+	application.register_blueprint(bp_directorio, url_prefix='/')
 
 	from project.bp_upload import bp as bp_upload
 	application.register_blueprint(bp_upload, url_prefix='/upload')

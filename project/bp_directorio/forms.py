@@ -9,6 +9,6 @@ from project.models import *
 
 
 class ElegirRubroForm(Form):
-    rubro= SelectField(u'Selecciona rubro', choices=[], coerce=int)
+    rubro= SelectField(u'', choices=[], coerce=int)
     
     #submit = SubmitField()
