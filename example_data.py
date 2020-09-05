@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from project import create_app
-from project.models.bp_catalogo import *
+from project.models.bp_directorio import *
 from project.models.bp_auth import *
 
 app = create_app()
